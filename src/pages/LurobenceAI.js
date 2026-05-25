@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const COLORS = ['#00e5ff', '#ff4d6d', '#00e5b0', '#f59e0b', '#8b5cf6', '#f97316', '#3b82f6', '#ec4899', '#10b981', '#a78bfa'];
 
@@ -7,7 +6,6 @@ export default function LurobenceAI() {
   const [todos, setTodos] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     Promise.all([
@@ -39,7 +37,6 @@ export default function LurobenceAI() {
     <div style={S.root}>
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       <header style={S.header}>
-        <button style={S.back} onClick={() => navigate('/')}>← Back</button>
         <div style={S.logo}>LurobenceAI</div>
         <div style={S.live}>● LIVE</div>
       </header>
