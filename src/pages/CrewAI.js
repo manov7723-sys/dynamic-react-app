@@ -62,7 +62,6 @@ export default function CrewAI() {
 const S = {
   root: { fontFamily: "'Inter', sans-serif", background: '#f0f4ff', minHeight: '100vh' },
   header: { background: '#1a1aff', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' },
-  back: { background: 'rgba(255,255,255,0.2)', border: 'none', color: '#fff', padding: '7px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem' },
   logo: { fontSize: '1.4rem', fontWeight: 800, color: '#fff' },
   badge: { background: 'rgba(255,255,255,0.2)', color: '#fff', borderRadius: '20px', padding: '4px 14px', fontSize: '0.78rem' },
   searchWrap: { padding: '20px 40px', background: '#1a1aff' },
