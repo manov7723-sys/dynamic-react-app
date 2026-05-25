@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const CATEGORIES = ['all', "men's clothing", "women's clothing", 'electronics', 'jewelery'];
 
@@ -8,7 +7,6 @@ export default function TechneuralAI() {
   const [filtered, setFiltered] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -27,7 +25,6 @@ export default function TechneuralAI() {
   return (
     <div style={S.root}>
       <header style={S.header}>
-        <button style={S.back} onClick={() => navigate('/')}>← Back</button>
         <div style={S.logo}>TechneuralAI</div>
         <span style={S.badge}>{filtered.length} Products</span>
       </header>
