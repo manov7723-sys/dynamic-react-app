@@ -7,8 +7,7 @@ export default function CrewAI() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
+ 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(res => res.json())
@@ -25,7 +24,6 @@ export default function CrewAI() {
   return (
     <div style={S.root}>
       <header style={S.header}>
-        <button style={S.back} onClick={() => navigate('/')}>← Back</button>
         <div style={S.logo}>CrewAI</div>
         <span style={S.badge}>{filtered.length} Users</span>
       </header>
