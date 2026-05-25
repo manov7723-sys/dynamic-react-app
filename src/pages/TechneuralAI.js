@@ -63,7 +63,6 @@ export default function TechneuralAI() {
 const S = {
   root: { fontFamily: "'Inter', sans-serif", background: '#0a0a0a', minHeight: '100vh', color: '#fff' },
   header: { borderBottom: '1px solid #222', padding: '20px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, background: '#0a0a0a', zIndex: 100 },
-  back: { background: 'transparent', border: '1px solid #333', color: '#888', padding: '7px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem' },
   logo: { fontFamily: 'sans-serif', fontSize: '1.4rem', fontWeight: 800, color: '#ff3c00', letterSpacing: '1px' },
   badge: { background: '#ff3c00', color: '#fff', borderRadius: '20px', padding: '4px 14px', fontSize: '0.78rem' },
   filterBar: { padding: '16px 40px', display: 'flex', gap: '10px', flexWrap: 'wrap', borderBottom: '1px solid #1a1a1a' },
