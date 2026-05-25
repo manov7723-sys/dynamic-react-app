@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const COLORS = ['#1a1aff', '#ff3c8e', '#00c2a8', '#f59e0b', '#8b5cf6', '#ef4444', '#10b981', '#3b82f6', '#f97316', '#ec4899'];
 const getInitials = (name) => name.split(' ').map(n => n[0]).join('').toUpperCase();
