@@ -12,30 +12,33 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-  - host: tecneuralai.com
+
+  - host: www.tecneuralai.com
     http:
       paths:
-      - path: /app1
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: dynamic-service
             port:
               number: 80
+
   - host: crewai.tecneuralai.com
     http:
       paths:
-      - path: /app2
+      - path: /
         pathType: Prefix
         backend:
           service:
             name: dynamic-service
             port:
               number: 80
+
   - host: lurobenceai.tecneuralai.com
     http:
       paths:
-      - path: /app3
+      - path: /
         pathType: Prefix
         backend:
           service:
