@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamic-app
+  namespace: dev
+  labels:
+    app: dynamic-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dynamic-app
+  template:
+    metadata:
+      labels:
+        app: dynamic-app
+    spec:
+      containers:
+      - name: dynamic-app
+        image: vasanthmano/dynamic-react-app-app:latest
+        ports:
+        - containerPort: 80
