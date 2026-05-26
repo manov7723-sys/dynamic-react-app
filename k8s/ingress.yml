@@ -6,11 +6,13 @@ metadata:
   labels:
     app: dynamic-app
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
 spec:
-  ingressClassName: nginx
+  ingressClassName: alb
   rules:
-  - host: www.tecneuralai.com
+  - host: tecneuralai.com
     http:
       paths:
       - path: /app1
