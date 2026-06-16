@@ -1,37 +1,11 @@
-module "vpc" {
-  source = "../../modules/vpc"
-
-  name               = "${var.cluster_name}-vpc"
-  cidr               = var.vpc_cidr
-  single_nat_gateway = var.single_nat_gateway
-  tags               = var.tags
-}
-
-module "iam" {
-  source = "../../modules/iam"
-
-  name = var.cluster_name
-  tags = var.tags
-}
-
 module "eks" {
-  source = "../../modules/eks"
+  source  = "terraform-aws-modules/eks/aws"
+  version = "~> 20.0"
+  cluster_name = "my-eks-cluster-eks"
+  cluster_version = "1.30"
+  enable_cluster_creator_admin_permissions = true
+}
 
-  name             = var.cluster_name
-  k8s_version      = var.k8s_version
-  cluster_role_arn = module.iam.cluster_role_arn
-  node_role_arn    = module.iam.node_role_arn
-  subnet_ids       = module.vpc.private_subnets
-
-  instance_type          = var.instance_type
-  desired_size           = var.desired_size
-  min_size               = var.min_size
-  max_size               = var.max_size
-  endpoint_public_access = var.endpoint_public_access
-
-  tags = var.tags
-
-  # Wait for the IAM roles AND their policy attachments before creating the cluster/nodes,
-  # otherwise EKS can fail with "role doesn't have the required permissions" / NodeCreationFailure.
-  depends_on = [module.iam, module.vpc]
+output "eks_cluster_name" {
+  value = module.eks.cluster_name
 }
