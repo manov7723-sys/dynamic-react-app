@@ -28,8 +28,12 @@ locals {
 module "iam" {
   source = "../../modules/iam"
 
-  name = var.cluster_name
-  tags = var.tags
+  name                      = var.cluster_name
+  create_cluster_role       = var.create_cluster_role
+  existing_cluster_role_arn = var.existing_cluster_role_arn
+  create_node_role          = var.create_node_role
+  existing_node_role_arn    = var.existing_node_role_arn
+  tags                      = var.tags
 }
 
 module "eks" {
@@ -42,14 +46,15 @@ module "eks" {
   subnet_ids       = local.cluster_subnet_ids
   node_subnet_ids  = local.node_subnet_ids
 
-  instance_type          = var.instance_type
-  desired_size           = var.desired_size
-  min_size               = var.min_size
-  max_size               = var.max_size
-  endpoint_public_access = var.endpoint_public_access
-  public_access_cidrs    = var.public_access_cidrs
-  node_disk_size         = var.node_disk_size
-  admin_principal_arns   = var.admin_principal_arns
+  instance_type        = var.instance_type
+  desired_size         = var.desired_size
+  min_size             = var.min_size
+  max_size             = var.max_size
+  endpoint_mode        = var.endpoint_mode
+  public_access_cidrs  = var.public_access_cidrs
+  enabled_addons       = var.enabled_addons
+  node_disk_size       = var.node_disk_size
+  admin_principal_arns = var.admin_principal_arns
 
   tags = var.tags
 

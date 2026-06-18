@@ -20,13 +20,17 @@ variable "max_size" {
   type    = number
   default = 3
 }
-variable "endpoint_public_access" {
-  type    = bool
-  default = true
+variable "endpoint_mode" {
+  type    = string
+  default = "public_and_private"
 }
 variable "public_access_cidrs" {
   type    = list(string)
   default = ["0.0.0.0/0"]
+}
+variable "enabled_addons" {
+  type    = list(string)
+  default = ["vpc-cni", "coredns", "kube-proxy", "aws-ebs-csi-driver"]
 }
 variable "node_disk_size" {
   type    = number

@@ -29,9 +29,9 @@ resource "aws_eks_cluster" "this" {
 
   vpc_config {
     subnet_ids              = var.subnet_ids
-    endpoint_public_access  = var.endpoint_public_access
-    endpoint_private_access = true
-    public_access_cidrs     = var.public_access_cidrs
+    endpoint_public_access  = var.endpoint_mode != "private"
+    endpoint_private_access = var.endpoint_mode != "public"
+    public_access_cidrs     = var.endpoint_mode == "private" ? [] : var.public_access_cidrs
   }
 
   encryption_config {
@@ -134,7 +134,7 @@ resource "aws_eks_node_group" "this" {
   depends_on = [aws_eks_cluster.this]
 }
 
-# IRSA role for the EBS CSI driver so PersistentVolumeClaims can provision EBS.
+# IRSA role for the EBS CSI driver — created only when that add-on is selected.
 data "aws_iam_policy_document" "ebs_csi_assume" {
   statement {
     effect  = "Allow"
@@ -156,19 +156,26 @@ data "aws_iam_policy_document" "ebs_csi_assume" {
   }
 }
 
+locals {
+  ebs_csi_enabled = contains(var.enabled_addons, "aws-ebs-csi-driver")
+}
+
 resource "aws_iam_role" "ebs_csi" {
+  count              = local.ebs_csi_enabled ? 1 : 0
   name               = "${var.name}-ebs-csi-role"
   assume_role_policy = data.aws_iam_policy_document.ebs_csi_assume.json
   tags               = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "ebs_csi" {
-  role       = aws_iam_role.ebs_csi.name
+  count      = local.ebs_csi_enabled ? 1 : 0
+  role       = aws_iam_role.ebs_csi[0].name
   policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
-# Managed add-ons — pinned, lifecycle-managed by EKS instead of default drift.
+# Managed add-ons — only the ones the user selected (console: Select add-ons).
 resource "aws_eks_addon" "vpc_cni" {
+  count                       = contains(var.enabled_addons, "vpc-cni") ? 1 : 0
   cluster_name                = aws_eks_cluster.this.name
   addon_name                  = "vpc-cni"
   resolve_conflicts_on_update = "OVERWRITE"
@@ -176,6 +183,7 @@ resource "aws_eks_addon" "vpc_cni" {
 }
 
 resource "aws_eks_addon" "coredns" {
+  count                       = contains(var.enabled_addons, "coredns") ? 1 : 0
   cluster_name                = aws_eks_cluster.this.name
   addon_name                  = "coredns"
   resolve_conflicts_on_update = "OVERWRITE"
@@ -183,6 +191,7 @@ resource "aws_eks_addon" "coredns" {
 }
 
 resource "aws_eks_addon" "kube_proxy" {
+  count                       = contains(var.enabled_addons, "kube-proxy") ? 1 : 0
   cluster_name                = aws_eks_cluster.this.name
   addon_name                  = "kube-proxy"
   resolve_conflicts_on_update = "OVERWRITE"
@@ -190,9 +199,10 @@ resource "aws_eks_addon" "kube_proxy" {
 }
 
 resource "aws_eks_addon" "ebs_csi" {
+  count                       = local.ebs_csi_enabled ? 1 : 0
   cluster_name                = aws_eks_cluster.this.name
   addon_name                  = "aws-ebs-csi-driver"
-  service_account_role_arn    = aws_iam_role.ebs_csi.arn
+  service_account_role_arn    = aws_iam_role.ebs_csi[0].arn
   resolve_conflicts_on_update = "OVERWRITE"
   depends_on                  = [aws_eks_node_group.this]
 }

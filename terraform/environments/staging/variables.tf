@@ -33,13 +33,33 @@ variable "instance_type" { type = string }
 variable "desired_size" { type = number }
 variable "min_size" { type = number }
 variable "max_size" { type = number }
-variable "endpoint_public_access" {
-  type    = bool
-  default = true
+variable "endpoint_mode" {
+  type    = string
+  default = "public_and_private"
 }
 variable "public_access_cidrs" {
   type    = list(string)
   default = ["0.0.0.0/0"]
+}
+variable "create_cluster_role" {
+  type    = bool
+  default = true
+}
+variable "existing_cluster_role_arn" {
+  type    = string
+  default = ""
+}
+variable "create_node_role" {
+  type    = bool
+  default = true
+}
+variable "existing_node_role_arn" {
+  type    = string
+  default = ""
+}
+variable "enabled_addons" {
+  type    = list(string)
+  default = ["vpc-cni", "coredns", "kube-proxy", "aws-ebs-csi-driver"]
 }
 variable "node_disk_size" {
   type    = number

@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket = "agent-demo-bucket7723"
-    key    = "eks/staging-cluster-prod/terraform.tfstate"
+    key    = "eks/my-eks-prod/terraform.tfstate"
     region = "us-east-1"
   }
 }
