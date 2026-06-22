@@ -32,6 +32,11 @@ module "vpc" {
   tags = local.tags
 }
 
+locals {
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+}
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
@@ -42,8 +47,8 @@ module "eks" {
   cluster_endpoint_public_access  = true
   cluster_endpoint_private_access = true
 
-  vpc_id     = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
+  vpc_id     = local.vpc_id
+  subnet_ids = local.subnet_ids
 
   enable_cluster_creator_admin_permissions = true
 
