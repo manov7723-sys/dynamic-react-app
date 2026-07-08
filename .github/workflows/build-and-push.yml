@@ -2,7 +2,7 @@ name: Build and push to ECR
 
 on:
   push:
-    branches: ["agent-wrokflow"]
+    branches: ["master"]
   workflow_dispatch:
 
 permissions:
