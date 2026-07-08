@@ -1,0 +1,34 @@
+name: Deploy to Kubernetes (CD)
+
+# Runs AFTER the image is built & pushed by the CI workflow. Applies the
+# committed manifests to the cluster. Set repo secret KUBECONFIG_B64 to the
+# base64 of your kubeconfig (the app can set this for you).
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main, master]
+    paths:
+      - "k8s/dev/**"
+      - ".github/workflows/deploy.yml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v4
+
+      - name: Configure cluster access
+        run: |
+          mkdir -p "$HOME/.kube"
+          printf '%s' "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > "$HOME/.kube/config"
+          kubectl config current-context
+
+      - name: Apply manifests
+        run: kubectl apply -n dev -f k8s/dev/
+
+      - name: Wait for rollout
+        run: kubectl rollout status deployment/dynamic-react-app -n dev --timeout=180s
