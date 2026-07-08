@@ -27,7 +27,9 @@ jobs:
           kubectl config current-context
 
       - name: Apply manifests
-        run: kubectl apply -n default -f k8s/alpha/
+        run: |
+          if [ -f k8s/alpha/namespace.yaml ]; then kubectl apply -f k8s/alpha/namespace.yaml; fi
+          kubectl apply -n default -f k8s/alpha/
 
       - name: Wait for rollout
         run: kubectl rollout status deployment/dynamic-react-app -n default --timeout=180s
