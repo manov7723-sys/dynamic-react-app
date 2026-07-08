@@ -1,45 +1,45 @@
-name: Deploy to Kubernetes (CD)
+name: Deploy to EKS (alpha)
 
-# Runs ONLY after the CI workflow ("Build and push to ECR") completes
-# successfully, so the image is already in the registry before we deploy.
-# Set repo secret KUBECONFIG_B64 (base64 of your kubeconfig) — the app can do this.
 on:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Build and push to ECR"]
     types: [completed]
-  workflow_dispatch: {}
 
 permissions:
-  id-token: write  # << REQUIRED FOR OIDC!!!
-  contents: read  
+  id-token: write # Required for OIDC
+  contents: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1
+          aws-region: us-east-1 # Change if your EKS is in a different region
 
       - name: Set up kubectl
-        uses: azure/setup-kubectl@v4
+        uses: azure/setup-kubectl@v3
+        with:
+          version: v1.30.0        # Or match your cluster's Kubernetes version
 
-      - name: Configure cluster access
+      - name: Set kubeconfig
         run: |
-          mkdir -p "$HOME/.kube"
-          printf '%s' "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > "$HOME/.kube/config"
-          kubectl config current-context
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > $HOME/.kube/config
 
-      - name: Apply manifests
+      - name: Test cluster access
+        run: kubectl get nodes
+
+      - name: Deploy Namespace (optional)
         run: |
           if [ -f k8s/alpha/namespace.yaml ]; then kubectl apply -f k8s/alpha/namespace.yaml; fi
-          kubectl apply -n default -f k8s/alpha/
 
-      - name: Wait for rollout
-        run: kubectl rollout status deployment/dynamic-react-app -n default --timeout=180s
+      - name: Deploy Manifests
+        run: |
+          kubectl apply -f k8s/alpha/
