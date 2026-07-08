@@ -9,6 +9,10 @@ on:
     types: [completed]
   workflow_dispatch: {}
 
+permissions:
+  id-token: write  # << REQUIRED FOR OIDC!!!
+  contents: read  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
