@@ -33,9 +33,7 @@ jobs:
         run: aws eks update-kubeconfig --name "test-cluster" --region ${{ vars.AWS_REGION }}
 
       - name: Apply manifests
-        run: |
-          if [ -f k8s/alpha/namespace.yaml ]; then kubectl apply -f k8s/alpha/namespace.yaml; fi
-          kubectl apply -n default -f k8s/alpha/
+        run: kubectl apply -n default -f k8s/alpha/
 
       - name: Restart rollout (image tag "latest" — force pods onto the new build)
         run: kubectl rollout restart deployment/dynamic-react-app -n default
