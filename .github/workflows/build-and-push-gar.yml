@@ -2,7 +2,7 @@ name: Build and push to Artifact Registry
 
 on:
   push:
-    branches: ["agent-app"]
+    branches: ["master"]
   workflow_dispatch:
 
 permissions:
