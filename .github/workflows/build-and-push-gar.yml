@@ -1,9 +1,4 @@
-name: Build and push to Artifact Registry
 
-on:
-  push:
-
-  workflow_dispatch:
 
 permissions:
   id-token: write   # required to request the GitHub OIDC token
