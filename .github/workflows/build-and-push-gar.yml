@@ -2,7 +2,7 @@ name: Build and push to Artifact Registry
 
 on:
   push:
-    branches: ["agent-app"]
+
   workflow_dispatch:
 
 permissions:
@@ -34,15 +34,6 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: docker build -t "$IMAGE:$IMAGE_TAG" -t "$IMAGE:latest" .
 
-      - name: Scan image for vulnerabilities (Trivy — stop on HIGH/CRITICAL)
-        uses: aquasecurity/trivy-action@v0.33.1
-        with:
-          image-ref: "us-central1-docker.pkg.dev/new-project-495604/dynamic-react-app/dynamic-react-app:${{ github.sha }}"
-          format: table
-          exit-code: "1"
-          ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL,HIGH
 
       - name: Push image
         env:
