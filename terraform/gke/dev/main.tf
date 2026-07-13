@@ -108,7 +108,7 @@ resource "google_container_node_pool" "system_nodes" {
   }
 
     node_config {
-      machine_type = "n2-standard-4"
+      machine_type = "e2-medium"
       image_type   = "COS_CONTAINERD"
       disk_type    = "pd-ssd"
       disk_size_gb = 100
