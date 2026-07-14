@@ -10,7 +10,7 @@ locals {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "dev"
+  name     = "rg-devops"
   location = local.location
   tags     = local.tags
 }
@@ -34,7 +34,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = local.rg_location
   resource_group_name = local.rg_name
   dns_prefix          = local.cluster_name
-  kubernetes_version  = "1.30"
+  kubernetes_version  = "1.36"
   sku_tier                  = "Standard"
   automatic_channel_upgrade = "patch"
   oidc_issuer_enabled       = true
@@ -103,7 +103,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 resource "azurerm_kubernetes_cluster_node_pool" "app" {
   name                  = "apppool"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
-  vm_size               = "Standard_D4s_v3"
+  vm_size               = "Standard_B2s"
   enable_auto_scaling   = true
   min_count             = 2
   max_count             = 20
