@@ -49,7 +49,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     min_count                    = 2
     max_count                    = 5
     os_disk_size_gb              = 128
-    os_disk_type                 = "Ephemeral"
+    os_disk_type                 = "Managed"
     max_pods                     = 50
     only_critical_addons_enabled = true
     zones                        = ["1", "2", "3"]
