@@ -1,6 +1,6 @@
 locals {
   cluster_name = "dev"
-  location     = "Central US "
+  location     = "centralus "
   tags = {
     ManagedBy   = "DeepAgent"
     Cluster     = "dev"
