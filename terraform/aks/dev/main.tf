@@ -1,6 +1,6 @@
 locals {
   cluster_name = "dev"
-  location     = "eastus"
+  location     = "Central US "
   tags = {
     ManagedBy   = "DeepAgent"
     Cluster     = "dev"
@@ -43,7 +43,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   default_node_pool {
     name                         = "systempool"
-    vm_size                      = "Standard_B2s"
+    vm_size                      = "Standard_D2s_v3"
     node_count                   = 2
     enable_auto_scaling          = true
     min_count                    = 2
@@ -103,7 +103,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
 resource "azurerm_kubernetes_cluster_node_pool" "app" {
   name                  = "apppool"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
-  vm_size               = "Standard_B2s"
+  vm_size               = "Standard_D2s_v3"
   enable_auto_scaling   = true
   min_count             = 2
   max_count             = 20
