@@ -26,8 +26,9 @@ resource "azurerm_log_analytics_workspace" "law" {
   name                = "${local.cluster_name}-law"
   location            = local.rg_location
   resource_group_name = local.rg_name
-  sku                 = "PerGB2018"
-  retention_in_days   = 90
+
+  sku               = "PerGB2018"
+  retention_in_days = 90
 
   tags = local.tags
 }
@@ -36,7 +37,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   name                = local.cluster_name
   location            = local.rg_location
   resource_group_name = local.rg_name
-  dns_prefix          = local.cluster_name
+
+  dns_prefix = local.cluster_name
 
   kubernetes_version        = "1.33"
   sku_tier                  = "Standard"
@@ -47,23 +49,27 @@ resource "azurerm_kubernetes_cluster" "aks" {
   azure_policy_enabled      = true
 
   default_node_pool {
-    name                = "systempool"
-    vm_size             = "Standard_D2s_v3"
+    name    = "systempool"
+    vm_size = "Standard_D2s_v3"
 
     node_count          = 2
-
     enable_auto_scaling = true
-    min_count           = 1
-    max_count           = 3
 
-    os_disk_size_gb     = 128
-    os_disk_type        = "Managed"
+    min_count = 1
+    max_count = 3
+
+    os_disk_size_gb = 128
+    os_disk_type    = "Managed"
 
     max_pods = 50
 
-    zones = ["1", "2", "3"]
-
     only_critical_addons_enabled = true
+
+    zones = [
+      "1",
+      "2",
+      "3"
+    ]
 
     tags = local.tags
   }
@@ -117,10 +123,15 @@ resource "azurerm_kubernetes_cluster_node_pool" "app" {
   vm_size = "Standard_D2s_v3"
 
   enable_auto_scaling = true
-  min_count           = 1
-  max_count           = 5
 
-  zones = ["1", "2", "3"]
+  min_count = 1
+  max_count = 5
+
+  zones = [
+    "1",
+    "2",
+    "3"
+  ]
 
   node_labels = {
     role = "application"
@@ -128,12 +139,4 @@ resource "azurerm_kubernetes_cluster_node_pool" "app" {
   }
 
   tags = local.tags
-}
-
-output "cluster_name" {
-  value = azurerm_kubernetes_cluster.aks.name
-}
-
-output "update_kubeconfig_command" {
-  value = "az aks get-credentials --resource-group ${azurerm_resource_group.rg.name} --name ${azurerm_kubernetes_cluster.aks.name}"
 }
