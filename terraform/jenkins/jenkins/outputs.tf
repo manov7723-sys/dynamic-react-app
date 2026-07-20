@@ -19,9 +19,9 @@ output "jenkins_admin_password" {
   sensitive   = true
 }
 
-output "ssh_command" {
-  value       = "ssh ec2-user@${aws_instance.this.public_ip}"
-  description = "SSH is open (per SG). Prefer 'aws ssm start-session --target ${aws_instance.this.id}' if you'd rather not open port 22."
+output "shell_command" {
+  value       = "aws ssm start-session --target ${aws_instance.this.id} --region us-east-1"
+  description = "SSH is disabled by default. This uses AWS SSM Session Manager — no inbound rules needed, works over the SSM endpoint."
 }
 
 output "instance_id" {
