@@ -19,9 +19,20 @@ output "jenkins_admin_password" {
   sensitive   = true
 }
 
+output "ssh_private_key_pem" {
+  value       = tls_private_key.ssh.private_key_pem
+  description = "PEM-encoded private key. Save to jenkins.pem, chmod 600, then 'ssh -i jenkins.pem ec2-user@<public_ip>'."
+  sensitive   = true
+}
+
+output "ssh_key_name" {
+  value       = aws_key_pair.ssh.key_name
+  description = "Name of the aws_key_pair Terraform registered against your account."
+}
+
 output "shell_command" {
   value       = "aws ssm start-session --target ${aws_instance.this.id} --region us-east-1"
-  description = "SSH is disabled by default. This uses AWS SSM Session Manager — no inbound rules needed, works over the SSM endpoint."
+  description = "SSH is disabled. Uses AWS SSM Session Manager — no inbound rules needed, works over the SSM endpoint."
 }
 
 output "instance_id" {
