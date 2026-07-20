@@ -22,21 +22,13 @@ data "aws_ami" "amazon_linux" {
 
 resource "aws_security_group" "this" {
   name        = "jenkins-jenkins-sg"
-  description = "Jenkins UI + SSH ingress for jenkins"
+  description = "Jenkins UI ingress for jenkins"
   vpc_id      = "vpc-0458a23d9cb5dfece"
 
   ingress {
     description = "Jenkins UI"
     from_port   = 8080
     to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -92,7 +84,7 @@ resource "aws_iam_instance_profile" "this" {
 resource "aws_instance" "this" {
   ami                         = data.aws_ami.amazon_linux.id
   instance_type               = "t3.small"
-  subnet_id                   = "subnet-0d133374462a08f71"
+  subnet_id                   = "subnet-02782cd78b5c1ae81"
   vpc_security_group_ids      = [aws_security_group.this.id]
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.this.name
