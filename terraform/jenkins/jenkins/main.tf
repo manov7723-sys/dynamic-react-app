@@ -22,7 +22,7 @@ data "aws_ami" "amazon_linux" {
 
 resource "aws_security_group" "this" {
   name        = "jenkins-jenkins-sg"
-  description = "Jenkins UI ingress for jenkins"
+  description = "Jenkins UI + SSH ingress for jenkins"
   vpc_id      = "vpc-0458a23d9cb5dfece"
 
   ingress {
@@ -31,6 +31,14 @@ resource "aws_security_group" "this" {
     to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["223.185.25.28/32"]
   }
 
   egress {
@@ -119,7 +127,7 @@ resource "aws_instance" "this" {
     def instance = Jenkins.getInstance()
     
     def hudsonRealm = new HudsonPrivateSecurityRealm(false)
-    hudsonRealm.createAccount("admin", "VbNTQAtpgFgnR75F")
+    hudsonRealm.createAccount("admin", "admin123")
     instance.setSecurityRealm(hudsonRealm)
     
     def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
