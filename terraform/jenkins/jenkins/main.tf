@@ -88,6 +88,7 @@ resource "aws_instance" "this" {
   vpc_security_group_ids      = [aws_security_group.this.id]
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.this.name
+  key_name                    = "hari"
 
   root_block_device {
     volume_size = 30
