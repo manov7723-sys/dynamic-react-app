@@ -14,7 +14,7 @@ output "jenkins_admin_username" {
 }
 
 output "jenkins_admin_password" {
-  value       = "H5ghKQ4MZEAaP2SE"
+  value       = "admin123"
   description = "Initial admin password — rotate it from Manage Jenkins → Users at first login (currently visible in EC2 user-data metadata)."
   sensitive   = true
 }
