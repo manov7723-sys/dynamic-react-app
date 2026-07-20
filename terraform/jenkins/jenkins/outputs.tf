@@ -14,14 +14,14 @@ output "jenkins_admin_username" {
 }
 
 output "jenkins_admin_password" {
-  value       = "admin123"
+  value       = "7xpDScAkkNVNFcab"
   description = "Initial admin password — rotate it from Manage Jenkins → Users at first login (currently visible in EC2 user-data metadata)."
   sensitive   = true
 }
 
 output "shell_command" {
-  value       = "ssh -i ~/.ssh/hari.pem ec2-user@${aws_instance.this.public_ip}"
-  description = "SSH is open (per SG) using key pair 'hari'. Use the .pem you downloaded when creating that key pair in the EC2 console."
+  value       = "aws ssm start-session --target ${aws_instance.this.id} --region us-east-1"
+  description = "SSH is disabled. Uses AWS SSM Session Manager — no inbound rules needed, works over the SSM endpoint."
 }
 
 output "instance_id" {
