@@ -119,7 +119,7 @@ resource "aws_instance" "this" {
     def instance = Jenkins.getInstance()
     
     def hudsonRealm = new HudsonPrivateSecurityRealm(false)
-    hudsonRealm.createAccount("admin", "admin123")
+    hudsonRealm.createAccount("admin", "VbNTQAtpgFgnR75F")
     instance.setSecurityRealm(hudsonRealm)
     
     def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
