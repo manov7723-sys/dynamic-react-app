@@ -3,6 +3,11 @@ output "client_vpn_endpoint_id" {
   description = "Client VPN endpoint ID"
 }
 
+output "client_vpn_security_group_id" {
+  value       = aws_security_group.vpn.id
+  description = "SG attached to the Client VPN endpoint. Add this as an ingress source on your RDS/EC2 SGs to let VPN clients reach them (safer than CIDR-based rules)."
+}
+
 output "client_vpn_dns_name" {
   value       = aws_ec2_client_vpn_endpoint.this.dns_name
   description = "DNS name clients connect to (part of the .ovpn config)"
