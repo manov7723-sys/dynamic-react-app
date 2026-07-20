@@ -38,6 +38,8 @@ resource "tls_private_key" "server" {
 resource "tls_cert_request" "server" {
   private_key_pem = tls_private_key.server.private_key_pem
 
+  dns_names = ["client-vpn-server.deepagent.local"]
+
   subject {
     common_name  = "client-vpn-server"
     organization = "DeepAgent Client VPN"
