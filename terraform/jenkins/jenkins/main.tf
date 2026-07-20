@@ -81,13 +81,34 @@ resource "aws_iam_instance_profile" "this" {
   role = aws_iam_role.this.name
 }
 
+# Auto-generated SSH key pair — the private key comes back as a SENSITIVE
+# output (ssh_private_key_pem). Grab it AFTER apply with:
+#   terraform output -raw ssh_private_key_pem > jenkins.pem && chmod 600 jenkins.pem
+resource "tls_private_key" "ssh" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "ssh" {
+  key_name   = "jenkins-jenkins-key"
+  public_key = tls_private_key.ssh.public_key_openssh
+  tags       = {
+    "ManagedBy" = "DeepAgent"
+    "Stack" = "jenkins"
+    "Component" = "jenkins"
+    "Environment" = "dev"
+    "CreatedBy" = "deepagent-jenkins-ui"
+  }
+}
+
 resource "aws_instance" "this" {
   ami                         = data.aws_ami.amazon_linux.id
   instance_type               = "t3.small"
-  subnet_id                   = "subnet-02782cd78b5c1ae81"
+  subnet_id                   = "subnet-0d133374462a08f71"
   vpc_security_group_ids      = [aws_security_group.this.id]
   associate_public_ip_address = true
   iam_instance_profile        = aws_iam_instance_profile.this.name
+  key_name                    = aws_key_pair.ssh.key_name
 
   root_block_device {
     volume_size = 30
