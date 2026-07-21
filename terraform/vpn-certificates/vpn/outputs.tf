@@ -24,18 +24,18 @@ output "client_certificate_count" {
 }
 
 output "client_0_common_name" {
-  value       = "mano"
+  value       = "manovasanth"
   description = "CN of client cert #1 — shows in AWS Connection Log."
 }
 
 output "client_0_certificate_pem" {
   value       = tls_locally_signed_cert.client_0.cert_pem
-  description = "PEM of client cert #1 (mano). Hand this + key + ca_certificate_pem to the person using it."
+  description = "PEM of client cert #1 (manovasanth). Hand this + key + ca_certificate_pem to the person using it."
   sensitive   = true
 }
 
 output "client_0_private_key_pem" {
   value       = tls_private_key.client_0.private_key_pem_pkcs8
-  description = "Private key of client cert #1 (mano). Sensitive — never print in chat."
+  description = "Private key of client cert #1 (manovasanth). Sensitive — never print in chat."
   sensitive   = true
 }
