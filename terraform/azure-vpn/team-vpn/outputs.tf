@@ -9,7 +9,7 @@ output "client_vpn_dns_name" {
 }
 
 output "region" {
-  value       = "eastus"
+  value       = "southcentralus"
   description = "Azure region the endpoint lives in"
 }
 
