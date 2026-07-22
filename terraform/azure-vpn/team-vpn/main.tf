@@ -296,7 +296,7 @@ resource "azurerm_linux_virtual_machine" "vpn" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCcbyjH9W1Ksn+/Kk5dXIQiEg0Rs6zdduGjIV0T9PNmSOl5znZ+1GapmkS5vdJvFMmRS5jixK2CcXzuFmqgLnLV/+81Op320Hvd1Vdge7fYG+VzNGKq93XWSJXtVHmxu5cUa1UyK8Vcde2SyMU3WRawPYrGoK2vb8+POeFgNphH5baYv9Mq+3hg5SsUpZEcRqTViD22H5fJ8BZsJZZrOuylEg8ZtNbs3ca79erYTDIJREKYqLHIoPd1STrxXB5C3X6ktw66bxu2yYCKw98LmeN2Sl939X5VKYKAc6IdgeZM0oF0a1MCCFOZ1dP6GJ2f4eXJ80V4GevPEUTYbVRGTR0B team-vpn-azure-vpn-admin"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCKU7XtDLek3DDW64SWBg6o4oF3mtnf91pr6TX1xsnAwVcfxKwvPCGROceTAHGT7xT79SLfSrDnKJZxaxf1Yadq7Ab9+qGMwdOqGeWhFWyzizdmBXY6eQrFhIAL+Ylem5c38Eva1aXOINMfKTZkuqL9HiUUBB+bBzdJML6oNWUOAmoN7srWPZD5sMXH0Yvx5Q2wEHX4/WzVr2Zb/Hd/hYQ2JC1Z+lpM8OdqugZ0GrMF5J/vRIg9RckZ2m8GZpP7YgQr5Aw40l+3gMfaML9ywc1ojIuqwGz29c9SERi6w0SA+C1BELY13fgLoj6JtxyK+s60w4sYbV27W/Ys7ZHxu9ov team-vpn-azure-vpn-admin"
   }
 
   os_disk {
