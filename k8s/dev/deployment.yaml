@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dynamic-react-app
-  namespace: default
+  namespace: external-dns
   labels:
     app.kubernetes.io/name: dynamic-react-app
     app.kubernetes.io/managed-by: deepagent
