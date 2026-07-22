@@ -9,7 +9,7 @@ output "client_vpn_dns_name" {
 }
 
 output "region" {
-  value       = "us-central1"
+  value       = "us-west1"
   description = "Region the endpoint lives in"
 }
 
