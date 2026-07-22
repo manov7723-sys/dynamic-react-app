@@ -137,14 +137,14 @@ resource "azurerm_network_security_group" "vpn" {
   }
 
   security_rule {
-    name                       = "allow-ssh-ops"
+    name                       = "allow-ssh-from-vpn"
     priority                   = 110
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "AzureBastionSubnet"
+    source_address_prefix      = "10.100.0.0/22"
     destination_address_prefix = "*"
   }
 
@@ -290,13 +290,13 @@ resource "azurerm_linux_virtual_machine" "vpn" {
   name                  = "team-vpn-openvpn"
   location              = data.azurerm_resource_group.this.location
   resource_group_name   = data.azurerm_resource_group.this.name
-  size                  = "Standard_B1s"
+  size                  = "Standard_B2ats_v2"
   admin_username        = "azureuser"
   network_interface_ids = [azurerm_network_interface.vpn.id]
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpOl96hhZE9AqqmSb2uMIoRx0YEi7l3tCZ1807o/wLpppP08HxwXsweZHIxqCD3pL+6EPV9DJ/eUr8J88KMreDp84X8XmuNe0w3N+5AHQYLcX6Mvn6IntsgykShhg2AHwxrRun3TRnj9zQ3DHxm/oIY15VlDgg3rvMmEBHDqC30gGKbzdWsAnD30KweZqOKPXrKZ4zJ0QwKhT0Oh5j83VZ2J5hVE0btPqRaaqbAlmKaqR6Ptxqqoh8CcsDC3dzZvGevdrviQHrJPLfTRRHvtrevkLxeEmf6WZcVl50ZMARoCVOv9zbaJjkYBtK6jRhvduAN7T32EALq1kD+uoyw4mV team-vpn-azure-vpn-admin"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCWXXqRx1O6A+DS37/xu/qAfyTUKEXO3qFVaQ/KHweTFClmOIqbPHBH5OGXf1phUp2WvmnbxUJYq9yFLqY+jyqGIsHhVTJWHvt8Ep6XSat143LBxpJZzlqAUnUcJDRFbLd0xrHocOmpflRWy2kGkinW9MAOgE3FGcYAFi81xxtcnmAvqqQdMilyVaQdFsApcxbx5eIEN+la17Fw0MhbjszNiK3LoUYhEApleIoKpsEM6J5vBE8NzbV8Jg1aGHgWxlwtgTAilBGIVQRctbTHVUmhK02uD8gq8LSFN5c+kSq+WANb6smkOFGbLwiuyt9abvEoqphkRL63gjjZuJY5DMIz team-vpn-azure-vpn-admin"
   }
 
   os_disk {
