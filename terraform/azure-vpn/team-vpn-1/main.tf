@@ -33,7 +33,7 @@ resource "tls_self_signed_cert" "ca" {
   private_key_pem = tls_private_key.ca.private_key_pem
 
   subject {
-    common_name  = "team-vpn-1-ca"
+    common_name  = "vasanth-ca"
     organization = "DeepAgent Azure OpenVPN"
   }
 
@@ -55,10 +55,10 @@ resource "tls_private_key" "server" {
 resource "tls_cert_request" "server" {
   private_key_pem = tls_private_key.server.private_key_pem
 
-  dns_names = ["team-vpn-1-server.deepagent.local"]
+  dns_names = ["vasanth-server.deepagent.local"]
 
   subject {
-    common_name  = "team-vpn-1-server.deepagent.local"
+    common_name  = "vasanth-server.deepagent.local"
     organization = "DeepAgent Azure OpenVPN"
   }
 }
@@ -86,7 +86,7 @@ resource "tls_cert_request" "client" {
   private_key_pem = tls_private_key.client.private_key_pem
 
   subject {
-    common_name  = "team-vpn-1-client"
+    common_name  = "vasanth-client"
     organization = "DeepAgent Azure OpenVPN"
   }
 }
@@ -290,13 +290,13 @@ resource "azurerm_linux_virtual_machine" "vpn" {
   name                  = "team-vpn-1-openvpn"
   location              = data.azurerm_resource_group.this.location
   resource_group_name   = data.azurerm_resource_group.this.name
-  size                  = "Standard_B1s"
+  size                  = "Standard_D2s_v3"
   admin_username        = "azureuser"
   network_interface_ids = [azurerm_network_interface.vpn.id]
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCltFRgT62Yyk7gMGCe7JeJLyKXuxX3n+C36gjNKEWJsj6BnNW2W18UPpHSuzYZz3gNQhuYq5ycR7Afo6tIy84+FBPBGL8VWhcclUBV9Dc9oUyg+FQRmIjnUp/BmDY9oZZBxSt28NTehzigARU9F9KOgxtXsh44jQfZt45wraHiz7nbiExxxShzP1kdIAh37tbEJS+z/DPnEKg4aJbC0ZjVTE9w+lEtaTyGXcxvs82SOJC9Jf+okPYYhCPpTaatVMPABAe8hvoAd8PcMOgWm0+xDFDz7oJ1yE7VpVrhuvt2DXNOh0nmjBu87KmSy4gNjTUH6TBVd2H0sYe3CKSA9Fh1 team-vpn-1-azure-vpn-admin"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1uvJL3EW2ntAX85orZJ9+eXlPNui0BxyZ6DXp6iv3I6/SjMEPM6sLt9HNYDb7ejw9T3d6fWEjaW2iIHGNU3D7kN0ZIRLD0zVhhZ8Iy8rDnEju5isa4kjQLUjroOjC+80ev+zo33AsUt7LBbY7JHMg86Q5OOCcmYwL1kfjMnsf+0zvBUl+ZdR7KxCeaZrtsVZYO8JBHDio94+kVVgIA+4knQYR6rXnW0y8voQvdFV1E+04QbZ0krgddsFdS4rhe3Y6k3TFTPqACcfoeK0QHXNS4G5DVGNLh6D5IeaolR0U6Zo5CyuxQfkioDqR2SKOa0SSQbwGCQbjnOpWzS9/RoVj team-vpn-1-azure-vpn-admin"
   }
 
   os_disk {
