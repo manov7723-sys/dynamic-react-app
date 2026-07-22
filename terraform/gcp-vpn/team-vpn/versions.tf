@@ -7,6 +7,6 @@ terraform {
 }
 
 provider "google" {
-  region = "us-central1"
-  zone   = "us-central1-a"
+  region = "us-west1"
+  zone   = "us-west1-a"
 }
