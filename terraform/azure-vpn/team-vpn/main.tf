@@ -290,13 +290,13 @@ resource "azurerm_linux_virtual_machine" "vpn" {
   name                  = "team-vpn-openvpn"
   location              = data.azurerm_resource_group.this.location
   resource_group_name   = data.azurerm_resource_group.this.name
-  size                  = "Standard_B2ats_v2"
+  size                  = "Standard_D2ads_v5"
   admin_username        = "azureuser"
   network_interface_ids = [azurerm_network_interface.vpn.id]
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCWXXqRx1O6A+DS37/xu/qAfyTUKEXO3qFVaQ/KHweTFClmOIqbPHBH5OGXf1phUp2WvmnbxUJYq9yFLqY+jyqGIsHhVTJWHvt8Ep6XSat143LBxpJZzlqAUnUcJDRFbLd0xrHocOmpflRWy2kGkinW9MAOgE3FGcYAFi81xxtcnmAvqqQdMilyVaQdFsApcxbx5eIEN+la17Fw0MhbjszNiK3LoUYhEApleIoKpsEM6J5vBE8NzbV8Jg1aGHgWxlwtgTAilBGIVQRctbTHVUmhK02uD8gq8LSFN5c+kSq+WANb6smkOFGbLwiuyt9abvEoqphkRL63gjjZuJY5DMIz team-vpn-azure-vpn-admin"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxEBNzccIs8c0oUdFaxShdG0zkWALorzLqa9PFS62g59RrPYB5fu3N4KKqtjb3whtvX38QuHKErqr0N8n7Q0g6B2yKJqkJIgn8bHLnlw9f9DtQOkLrl5A1Nn4OJzBpo1stpApoOiPY4Uzt2zn+GGCcUbAr7/0VZA4VIhD64N2iqen22s51zhK05zCjsMsvaF6+4bb/YilTd6sj0+seC/PUltwWuKm5z5tOmsQtoS9iSr5e+l0jP7rJZ28cWVIv6j6MASmCu7DRzuzb3HVJrUS+cBwlDzkJrUNRHMfbuKkmyD3XRUzG5AJXs48OeqEb1v5ZesOvY52ilS2DupKJiLfl team-vpn-azure-vpn-admin"
   }
 
   os_disk {
