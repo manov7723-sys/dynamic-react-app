@@ -34,7 +34,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = local.rg_location
   resource_group_name = local.rg_name
   dns_prefix          = local.cluster_name
-  kubernetes_version  = "1.36"
+  kubernetes_version  = "1.30"
   sku_tier                  = "Standard"
   automatic_channel_upgrade = "patch"
   oidc_issuer_enabled       = true
