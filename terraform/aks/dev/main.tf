@@ -9,15 +9,13 @@ locals {
   }
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = "rg-devops"
-  location = local.location
-  tags     = local.tags
+data "azurerm_resource_group" "rg" {
+  name = "rg-devops"
 }
 
 locals {
-  rg_name     = azurerm_resource_group.rg.name
-  rg_location = azurerm_resource_group.rg.location
+  rg_name     = data.azurerm_resource_group.rg.name
+  rg_location = data.azurerm_resource_group.rg.location
 }
 
 resource "azurerm_log_analytics_workspace" "law" {
@@ -34,7 +32,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   location            = local.rg_location
   resource_group_name = local.rg_name
   dns_prefix          = local.cluster_name
-  kubernetes_version  = "1.30"
+  kubernetes_version  = "1.36"
   sku_tier                  = "Standard"
   automatic_channel_upgrade = "patch"
   oidc_issuer_enabled       = true
@@ -61,7 +59,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   azure_active_directory_role_based_access_control {
-    managed            = true
     azure_rbac_enabled = true
   }
 
