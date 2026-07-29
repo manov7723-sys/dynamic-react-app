@@ -9,13 +9,15 @@ locals {
   }
 }
 
-data "azurerm_resource_group" "rg" {
-  name = "rg-devops"
+resource "azurerm_resource_group" "rg" {
+  name     = "rg-devops"
+  location = local.location
+  tags     = local.tags
 }
 
 locals {
-  rg_name     = data.azurerm_resource_group.rg.name
-  rg_location = data.azurerm_resource_group.rg.location
+  rg_name     = azurerm_resource_group.rg.name
+  rg_location = azurerm_resource_group.rg.location
 }
 
 resource "azurerm_log_analytics_workspace" "law" {
@@ -59,6 +61,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   azure_active_directory_role_based_access_control {
+    managed            = true
     azure_rbac_enabled = true
   }
 
